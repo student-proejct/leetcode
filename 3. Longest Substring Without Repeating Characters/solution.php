@@ -9,41 +9,22 @@ class Solution
      */
     function lengthOfLongestSubstring($s)
     {
-        $n = strlen($s);
-        $uniqueLen = 0;
-        for ($step = 1; $step <= $n ; $step++) {
-            for ($j = 0; $j < ($n - $step) + 1; $j++) {
-                $str = substr($s, $j, $step);
-                $len = count(array_unique(str_split($str)));
-
-                if ($step === $len && $len > $uniqueLen) {
-                    $uniqueLen = $len;
-                }
+        $res = '';
+        $str = '';
+        do {
+            $t = substr($s, 0, 1);
+            $s = substr($s, 1);
+            if (strpos($str, $t) === false)
+                $str .= $t;
+            else {
+                if (strlen($res) < strlen($str))
+                    $res = $str;
+                $str = substr($str, strrpos($str, $t) + 1) . $t;
             }
-        }
+        } while (strlen($s) > 0);
 
-        return $uniqueLen;
+        if (strlen($res) < strlen($str))
+            $res = $str;
+        return strlen($res);
     }
 }
-
-$s = new Solution();
-/*var_dump($s->lengthOfLongestSubstring("asdfqwreowifasdfasdfqwerqweriasdfasfiasfsadfafasdfqweroasf"));
-var_dump($s->lengthOfLongestSubstring("abcabcbb"));
-var_dump($s->lengthOfLongestSubstring("bbbbb"));
-
-
-$s->lengthOfLongestSubstring("bbbb");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring("abcabcbb");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring("pwwkew");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring("abcdefghji");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring("aa");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring("  ");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring(" ");
-echo "\n\n---------------------------------------------\n\n";
-$s->lengthOfLongestSubstring("au");*/
